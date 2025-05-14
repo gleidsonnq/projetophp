@@ -1,37 +1,34 @@
-<!DOCTYPE html>
-<html lang="pt-BR"> 
-<head> 
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="style.css" media="screen"/>
-</head>
-<body>   
-    <header>
-        <h1>Dr Tec</h1>
-        <nav aria-label="Breadcrumb" class="breadcrumb">
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="login.php">Login</a></li>
-                    <li><a href="carrinho.php">Carrinho</a></li>
-                </ul>
-        </nav>
-    </header>
-    <main>
-        <p>Insira seu Login</p>
-        <input type="text"placeholder="Usuario"required>
-        <input type="password"placeholder="Senha"required>
-        <button type="submit">Login</button>
-        <input type="email" id="email" name="email" placeholder="Digite seu email" required> <br><br>
-        <p>Insira sua senha</p>
-        <input type="PASSWORD" id="senha" name="senha" placeholder="Digite sua senha" required> <br><br>      
-        <p>Enviar</p>
-        <input type="submit" value="Enviar">
-        <p>Limpar</p>
-        <input type="reset" value="Limpar">
+<?php include('header.php')?>
 
-      
+    <main class="login">
+        <p>Faça seu Login</p>
+        <form method="POST">
+            <input type="text" name="usuario" placeholder="insira o Usuário" required><br>
+            <input type="password" name="senha" placeholder="insira a Senha" required><br>
+            <button type="submit">Entrar</button>
+        </form>
+
     </main>
-</body> 
-</html>
+
+<?php include('footer.php')?>
 
 <?php
+session_start();
+include('includes/conexao.php');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $usuario = $_POST['usuario'];
+    $senha = $_POST['senha'];
+    $sql = "SELECT * FROM usuarios WHERE usuario = ? AND senha = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $usuario, $senha);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows === 1) {
+        $_SESSION['usuario'] = $usuario;
+        header("Location: cadastro_produto.php");
+        exit;
+    } else {
+        echo "<p>Login inválido.</p>";
+    }
+}
+?>

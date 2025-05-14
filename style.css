@@ -45,6 +45,7 @@ h2{
     text-align: center;
 }
 h3{
+    color: pink;
     padding: 5px;
     border-radius: 10px;
     text-align: justify;
@@ -65,4 +66,14 @@ h3{
   display: inline-block;
   margin: 0 .25rem;
   content: "→";
+}
+
+.login{
+    padding: 10px;
+    margin: 50px;
+    background-color: aliceblue;
+}
+.login button{
+    color: black;
+    background-color: red;
 }
